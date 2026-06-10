@@ -254,6 +254,35 @@ def apply_lego_theme():
             color: #fff; -webkit-text-stroke: 1.4px #1B1B1B; line-height: 1.2;
         }
         .lego-sub { color: #1B1B1B; font-size: 12px; font-weight: 500; }
+
+        /* ── Sidebar nav = LEGO brick buttons (route B) ───────────────────── */
+        .nav-label { font-size: 11px; font-weight: 700; color: #9a7d00;
+            text-transform: uppercase; letter-spacing: .6px; margin-bottom: 2px; }
+        section[data-testid="stSidebar"] button[kind] {
+            position: relative; width: 100%; justify-content: flex-start; text-align: left;
+            overflow: visible; font-family: 'Fredoka', sans-serif; font-weight: 700; font-size: 14px;
+            color: #fff; text-shadow: 0 1px 0 rgba(0,0,0,.35);
+            background: #FFC400; border: 3px solid #1B1B1B; border-radius: 9px;
+            padding: 15px 14px 13px; margin-top: 18px;
+            box-shadow: inset 0 5px 0 rgba(255,255,255,.35), inset 0 -8px 0 rgba(0,0,0,.16), 4px 6px 0 #1B1B1B;
+            transition: transform .12s ease, background .12s ease; }
+        /* the row of studs on top, drawn as a repeating radial-gradient */
+        section[data-testid="stSidebar"] button[kind]::before {
+            content: ""; position: absolute; top: -9px; left: 14px; right: 14px; height: 15px;
+            background-image: radial-gradient(circle at center, #fff 0 5px, #1B1B1B 5px 7px, transparent 7px);
+            background-size: 46px 15px; background-repeat: repeat-x; background-position: center; }
+        section[data-testid="stSidebar"] button[kind]:hover {
+            transform: translate(-1px,-1px); color: #fff; border-color: #1B1B1B; }
+        section[data-testid="stSidebar"] button[kind]:active {
+            transform: translateY(4px);
+            box-shadow: inset 0 5px 0 rgba(255,255,255,.35), inset 0 -8px 0 rgba(0,0,0,.18), 1px 1px 0 #1B1B1B; }
+        section[data-testid="stSidebar"] button[kind]:focus:not(:active) {
+            color: #fff; border-color: #1B1B1B; outline: none;
+            box-shadow: inset 0 5px 0 rgba(255,255,255,.35), inset 0 -8px 0 rgba(0,0,0,.16), 4px 6px 0 #1B1B1B; }
+        /* active page = primary: brighter gold + red studs */
+        section[data-testid="stSidebar"] button[kind="primary"] { background: #FFD11A; }
+        section[data-testid="stSidebar"] button[kind="primary"]::before {
+            background-image: radial-gradient(circle at center, #E11C1C 0 5px, #1B1B1B 5px 7px, transparent 7px); }
         </style>
         """,
         unsafe_allow_html=True,
@@ -283,12 +312,28 @@ lego_banner()
 st.sidebar.title("LEGO Product Analytics")
 st.sidebar.caption("A portfolio intelligence dashboard for product analysts.")
 st.sidebar.markdown("---")
-page = st.sidebar.radio(
-    "Navigate",
-    ["Executive Overview", "Theme Lifecycle", "Growth & Concentration",
-     "Survival Predictor (ML)", "Popularity Predictor (ML)",
-     "Recommender (ML)", "A/B Test (Experiment)", "AI Assistant (Agent)"],
-)
+PAGES = [
+    "Executive Overview", "Theme Lifecycle", "Growth & Concentration",
+    "Survival Predictor (ML)", "Popularity Predictor (ML)",
+    "Recommender (ML)", "A/B Test (Experiment)", "AI Assistant (Agent)",
+]
+if "page" not in st.session_state:
+    st.session_state.page = PAGES[0]
+
+# Navigation as LEGO-brick buttons. The active page is rendered as a "primary"
+# button (red studs); the rest are "secondary" (white studs). Styling lives in
+# apply_lego_theme(); the press feel is a CSS :active effect.
+st.sidebar.markdown("<div class='nav-label'>Pages</div>", unsafe_allow_html=True)
+for _p in PAGES:
+    if st.sidebar.button(
+        _p,
+        key=f"nav_{_p}",
+        use_container_width=True,
+        type="primary" if st.session_state.page == _p else "secondary",
+    ):
+        st.session_state.page = _p
+        st.rerun()
+page = st.session_state.page
 st.sidebar.markdown("---")
 st.sidebar.markdown(
     f"**Data coverage:** {int(yearly['RELEASE_YEAR'].min())} – {int(yearly['RELEASE_YEAR'].max())}  \n"
