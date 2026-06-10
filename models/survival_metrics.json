@@ -1,0 +1,31 @@
+{
+  "test_roc_auc": 0.878,
+  "cv_roc_auc_mean": 0.843,
+  "cv_roc_auc_std": 0.031,
+  "accuracy": 0.737,
+  "active_recall": 0.833,
+  "active_precision": 0.556,
+  "confusion_matrix": [
+    [
+      18,
+      8
+    ],
+    [
+      2,
+      10
+    ]
+  ],
+  "best_model": "random_forest",
+  "latest_year": 2027,
+  "n_themes": 149,
+  "n_active": 49,
+  "n_retired": 100,
+  "feature_importances": {
+    "max_parts": 0.2583,
+    "n_sets": 0.2581,
+    "first_year": 0.169,
+    "avg_parts": 0.1458,
+    "median_parts": 0.1142,
+    "num_sub_themes": 0.0546
+  }
+}

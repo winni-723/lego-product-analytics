@@ -1,0 +1,101 @@
+THEME_ID,THEME_NAME,PARENT_THEME_ID
+1,Technic,
+3,Competition,1
+4,Expert Builder,1
+16,RoboRiders,1
+17,Speed Slammers,1
+18,Star Wars,1
+19,Supplemental,1
+20,Throwbot Slizer,1
+21,Universal Building Set,1
+22,Creator,
+34,Make & Create,
+35,Bricks & More,34
+50,Town,
+51,Arctic,50
+52,City,
+53,Airport,52
+54,Cargo,52
+55,Coast Guard,52
+56,Construction,52
+57,Farm,52
+58,Fire,52
+59,Harbor,52
+60,Hospital,52
+61,Police,52
+63,Traffic,52
+64,Off-Road,52
+65,Arctic,52
+66,Trains,52
+67,Classic Town,50
+86,Divers,50
+87,Extreme Team,50
+88,Launch Command,50
+89,Outback,50
+90,Paradisa,50
+91,Race,50
+92,Res-Q,50
+93,Space Port,50
+94,Town Jr.,50
+104,Town Plan,50
+105,World City,50
+106,City Center,50
+112,Racers,
+114,Ferrari,112
+118,Promotional,112
+122,RC,112
+123,World Racers,112
+126,Space,
+127,Alien Conquest,126
+128,Blacktron I,126
+129,Blacktron II,126
+130,Classic Space,126
+131,Exploriens,126
+132,Futuron,126
+133,Ice Planet 2002,126
+134,Insectoids,126
+135,Life On Mars,126
+136,M:Tron,126
+137,Mars Mission,126
+138,RoboForce,126
+139,Space Police I,126
+140,Space Police II,126
+141,Space Police III,126
+142,Spyrius,126
+143,Supplemental,126
+144,UFO,126
+145,Unitron,126
+146,Galaxy Squad,126
+147,Pirates,
+148,Pirates I,147
+153,Pirates II,147
+154,Pirates III,147
+155,Modular Buildings,
+156,Mini,155
+157,Bricktober,598
+158,Star Wars,
+171,Ultimate Collector Series,158
+186,Castle,
+187,Black Falcons,186
+188,Black Knights,186
+189,Classic Castle,186
+190,Dragon Knights,186
+191,Dark Forest,186
+193,Fantasy Era,186
+194,Forestmen,186
+195,Fright Knights,186
+196,Kingdoms,186
+197,Knights Kingdom I,186
+198,Knights Kingdom II,186
+199,Lion Knights,186
+201,Royal Knights,186
+203,Wolfpack,186
+204,Designer Sets,22
+206,Seasonal,
+207,Advent,206
+208,City,207
+209,Star Wars,207
+210,Belville,207
+211,Castle,207
+212,Classic Basic,207
+213,Clikits,207

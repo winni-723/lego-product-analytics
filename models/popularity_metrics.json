@@ -1,0 +1,15 @@
+{
+  "r2": 0.822,
+  "cv_r2_mean": 0.816,
+  "cv_r2_std": 0.006,
+  "mae_real_owners": 817,
+  "best_model": "random_forest",
+  "n_rows": 20153,
+  "owned_by_median": 662,
+  "feature_importances": {
+    "theme": 0.3304,
+    "minifigs": 0.2482,
+    "num_parts": 0.2305,
+    "year": 0.1909
+  }
+}

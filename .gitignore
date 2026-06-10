@@ -1,0 +1,23 @@
+# Secrets — never commit
+.env
+
+# Python
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Local data artifacts
+*.db
+duckdb.exe
+
+# Vector store (regenerable)
+chroma_db/
+
+# Trained model binaries (regenerable; popularity_model.joblib is 406MB > GitHub's 100MB limit)
+# Keep the small *_metrics.json so metrics stay tracked.
+*.joblib
+
+# OS / editor
+.DS_Store
+.ipynb_checkpoints/

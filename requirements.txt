@@ -1,0 +1,7 @@
+streamlit
+pandas
+plotly
+duckdb
+requests
+python-dotenv
+snowflake-connector-python
