@@ -7,6 +7,7 @@ import numpy as np
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.io as pio
 import streamlit as st
 from sklearn.preprocessing import normalize
 from statsmodels.stats.power import NormalIndPower
@@ -178,9 +179,105 @@ def run_ab_sim(n_users, w_sim, seed):
     return group, clicked, converted
 
 
-LEGO_RED    = "#E3000B"
-LEGO_BLUE   = "#006DB7"
-LEGO_YELLOW = "#F5C518"
+LEGO_RED    = "#D01012"
+LEGO_YELLOW = "#FFCF00"
+LEGO_BLUE   = "#006CB7"
+LEGO_GREEN  = "#00963A"
+LEGO_INK    = "#1B1B1B"
+
+
+# ── LEGO brand theme ───────────────────────────────────────────────────────────
+def apply_lego_theme():
+    """Inject the LEGO look: chunky font, brick metric cards, yellow sidebar,
+    and a Plotly template so every chart inherits the brand colours + font."""
+    # Plotly: layer our colourway/font ON TOP of plotly_white so we keep its
+    # clean gridlines + white plot area. Charts that set explicit colours win;
+    # charts that don't will pick up the LEGO palette automatically.
+    pio.templates["lego"] = go.layout.Template(
+        layout=dict(
+            colorway=[LEGO_RED, LEGO_YELLOW, LEGO_BLUE, LEGO_GREEN, LEGO_INK],
+            font=dict(family="Fredoka, sans-serif", color=LEGO_INK),
+            paper_bgcolor="#FFFFFF",
+            plot_bgcolor="#FFFFFF",
+        )
+    )
+    pio.templates.default = "plotly_white+lego"
+
+    st.markdown(
+        """
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Luckiest+Guy&display=swap');
+
+        /* Chunky rounded font everywhere + warm "instruction-paper" page bg */
+        html, body, [class*="css"], .stApp { font-family: 'Fredoka', sans-serif; }
+        [data-testid="stAppViewContainer"] { background: #FAF8F2; }
+
+        /* Section headers in LEGO red */
+        h1, h2, h3 { color: #D01012 !important; font-weight: 700 !important; }
+
+        /* Sidebar = one big yellow brick */
+        section[data-testid="stSidebar"] {
+            background: #FFCF00;
+            border-right: 4px solid #1B1B1B;
+        }
+        section[data-testid="stSidebar"] * { color: #1B1B1B; }
+        section[data-testid="stSidebar"] h1 { color: #1B1B1B !important; }
+
+        /* Metric cards = LEGO bricks: thick outline, hard shadow, studs on top */
+        div[data-testid="stMetric"] {
+            background: #fff;
+            border: 3px solid #1B1B1B;
+            border-radius: 14px;
+            padding: 18px 16px 14px;
+            box-shadow: 4px 4px 0 #1B1B1B;
+            position: relative;
+        }
+        div[data-testid="stMetric"]::before {
+            content: "";
+            position: absolute; top: -9px; left: 18px;
+            width: 15px; height: 15px; border-radius: 50%;
+            background: #D01012;
+            box-shadow: 24px 0 0 #D01012;   /* second stud */
+        }
+        div[data-testid="stMetricValue"] { color: #1B1B1B; font-weight: 700; }
+
+        /* Top banner: white Luckiest-Guy title with a black outline on red */
+        .lego-banner {
+            display: flex; align-items: center; gap: 12px;
+            background: #D01012; border: 3px solid #1B1B1B; border-radius: 12px;
+            padding: 14px 18px; margin-bottom: 18px;
+        }
+        .lego-studs { display: flex; gap: 6px; }
+        .lego-studs span { width: 12px; height: 12px; border-radius: 50%; background: #FFCF00; }
+        .lego-title {
+            font-family: 'Luckiest Guy', cursive; font-size: 26px; letter-spacing: 1px;
+            color: #fff; -webkit-text-stroke: 1.4px #1B1B1B; line-height: 1.2;
+        }
+        .lego-sub { color: #1B1B1B; font-size: 12px; font-weight: 500; }
+        </style>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+def lego_banner():
+    """The red title banner shown once at the top of the main area."""
+    st.markdown(
+        """
+        <div class="lego-banner">
+          <div class="lego-studs"><span></span><span></span></div>
+          <div>
+            <div class="lego-title">LEGO Product Analytics</div>
+            <div class="lego-sub">Portfolio intelligence for product analysts</div>
+          </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
+apply_lego_theme()
+lego_banner()
 
 # ── Sidebar ───────────────────────────────────────────────────────────────────
 st.sidebar.title("LEGO Product Analytics")
@@ -289,7 +386,7 @@ if page == "Executive Overview":
             height=360,
             margin=dict(t=10),
         )
-        st.plotly_chart(fig_dual, use_container_width=True)
+        st.plotly_chart(fig_dual, use_container_width=True, theme=None)
 
     with col_b:
         st.subheader("Flagship Product Trend")
@@ -311,7 +408,7 @@ if page == "Executive Overview":
             height=360,
             margin=dict(t=10),
         )
-        st.plotly_chart(fig_flag, use_container_width=True)
+        st.plotly_chart(fig_flag, use_container_width=True, theme=None)
 
     st.markdown("---")
 
@@ -333,7 +430,7 @@ if page == "Executive Overview":
         )
         fig_pie.update_traces(textposition="outside", textinfo="percent+label")
         fig_pie.update_layout(height=360, showlegend=False, margin=dict(t=10))
-        st.plotly_chart(fig_pie, use_container_width=True)
+        st.plotly_chart(fig_pie, use_container_width=True, theme=None)
 
     with col_d:
         st.subheader("Volume vs. Complexity by Year")
@@ -356,7 +453,7 @@ if page == "Executive Overview":
             },
         )
         fig_scat.update_layout(height=360, margin=dict(t=10))
-        st.plotly_chart(fig_scat, use_container_width=True)
+        st.plotly_chart(fig_scat, use_container_width=True, theme=None)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -403,7 +500,7 @@ elif page == "Theme Lifecycle":
         height=600,
     )
     fig_3d.update_layout(margin=dict(l=0, r=0, t=0, b=0))
-    st.plotly_chart(fig_3d, use_container_width=True)
+    st.plotly_chart(fig_3d, use_container_width=True, theme=None)
 
     st.markdown("---")
 
@@ -451,7 +548,7 @@ elif page == "Theme Lifecycle":
             height=380,
             margin=dict(t=10),
         )
-        st.plotly_chart(fig_nvr, use_container_width=True)
+        st.plotly_chart(fig_nvr, use_container_width=True, theme=None)
 
     with col_b:
         st.subheader("Theme Portfolio Depth (Top 15 Parent Themes)")
@@ -459,6 +556,9 @@ elif page == "Theme Lifecycle":
             "How broad is each parent theme's sub-theme tree? "
             "Bar length = total sets; color = number of sub-themes."
         )
+        # Spacer to match the year-range slider in the left column, so this
+        # chart's top lines up with the New-vs-Returning chart beside it.
+        st.markdown("<div style='height:74px'></div>", unsafe_allow_html=True)
         depth_top = (
             theme_depth
             .sort_values("TOTAL_SETS_IN_TREE", ascending=True)
@@ -479,7 +579,7 @@ elif page == "Theme Lifecycle":
             height=380,
         )
         fig_depth.update_layout(margin=dict(t=10))
-        st.plotly_chart(fig_depth, use_container_width=True)
+        st.plotly_chart(fig_depth, use_container_width=True, theme=None)
 
     # ── Active vs Retired summary ─────────────────────────────────────────────
     st.markdown("---")
@@ -539,7 +639,7 @@ elif page == "Growth & Concentration":
         )
         fig_yoy.add_hline(y=0, line_dash="dash", line_color="gray", opacity=0.5)
         fig_yoy.update_layout(hovermode="x unified", margin=dict(t=10))
-        st.plotly_chart(fig_yoy, use_container_width=True)
+        st.plotly_chart(fig_yoy, use_container_width=True, theme=None)
     else:
         st.info("Select at least one theme above.")
 
@@ -574,7 +674,7 @@ elif page == "Growth & Concentration":
             height=420,
         )
         fig_conc.update_layout(margin=dict(t=10))
-        st.plotly_chart(fig_conc, use_container_width=True)
+        st.plotly_chart(fig_conc, use_container_width=True, theme=None)
 
     with col_b:
         st.subheader("Product Size Mix by Theme")
@@ -594,7 +694,7 @@ elif page == "Growth & Concentration":
         )
         fig_mix.update_traces(textposition="outside", textinfo="percent+label")
         fig_mix.update_layout(height=420, showlegend=False, margin=dict(t=10))
-        st.plotly_chart(fig_mix, use_container_width=True)
+        st.plotly_chart(fig_mix, use_container_width=True, theme=None)
 
     # ── Cumulative concentration curve ────────────────────────────────────────
     st.markdown("---")
@@ -622,7 +722,7 @@ elif page == "Growth & Concentration":
         height=340,
         margin=dict(t=10),
     )
-    st.plotly_chart(fig_pareto, use_container_width=True)
+    st.plotly_chart(fig_pareto, use_container_width=True, theme=None)
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -684,7 +784,7 @@ elif page == "Survival Predictor (ML)":
         )
         fig_imp.update_layout(height=360, showlegend=False, margin=dict(t=10),
                               coloraxis_showscale=False)
-        st.plotly_chart(fig_imp, use_container_width=True)
+        st.plotly_chart(fig_imp, use_container_width=True, theme=None)
 
     with col_b:
         st.subheader("Confusion Matrix")
@@ -697,7 +797,7 @@ elif page == "Survival Predictor (ML)":
             color_continuous_scale="Blues",
         )
         fig_cm.update_layout(height=360, margin=dict(t=10), coloraxis_showscale=False)
-        st.plotly_chart(fig_cm, use_container_width=True)
+        st.plotly_chart(fig_cm, use_container_width=True, theme=None)
 
     # ── Watchlists: at-risk + comeback candidates ─────────────────────────────
     st.markdown("---")
@@ -814,7 +914,7 @@ elif page == "Popularity Predictor (ML)":
         )
         fig_imp.update_layout(height=320, showlegend=False, margin=dict(t=10),
                               coloraxis_showscale=False)
-        st.plotly_chart(fig_imp, use_container_width=True)
+        st.plotly_chart(fig_imp, use_container_width=True, theme=None)
 
     with col_b:
         st.subheader("Predicted vs. Actual Ownership")
@@ -828,7 +928,7 @@ elif page == "Popularity Predictor (ML)":
         fig_pa.add_shape(type="line", x0=0, y0=0, x1=lim, y1=lim,
                          line=dict(color="gray", dash="dash"))
         fig_pa.update_layout(height=320, margin=dict(t=10))
-        st.plotly_chart(fig_pa, use_container_width=True)
+        st.plotly_chart(fig_pa, use_container_width=True, theme=None)
 
     # ── Surprise hits vs over-expected ─────────────────────────────────────────
     st.markdown("---")
@@ -1012,7 +1112,7 @@ elif page == "A/B Test (Experiment)":
         )
         fig_fun.update_layout(height=380, margin=dict(t=10),
                               legend=dict(orientation="h", y=1.15))
-        st.plotly_chart(fig_fun, use_container_width=True)
+        st.plotly_chart(fig_fun, use_container_width=True, theme=None)
         conv_a = cnv_a / n_a if n_a else 0
         conv_b = cnv_b / n_b if n_b else 0
         st.caption(f"End-to-end conversion: A = {conv_a:.2%}  ·  B = {conv_b:.2%}")
@@ -1042,7 +1142,7 @@ elif page == "A/B Test (Experiment)":
                          annotation_text="Your test (per arm)")
         fig_pw.update_layout(height=380, margin=dict(t=10),
                              xaxis_title="Sample size per arm", yaxis_title="Power")
-        st.plotly_chart(fig_pw, use_container_width=True)
+        st.plotly_chart(fig_pw, use_container_width=True, theme=None)
         if np.isfinite(n_needed):
             st.caption(f"Minimum sample size per arm for 80% power: **{int(np.ceil(n_needed)):,}** "
                        f"(you have {n_b:,}).")

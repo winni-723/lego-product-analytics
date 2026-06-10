@@ -1,0 +1,8 @@
+[theme]
+# Pin the app to light mode so it never follows the viewer's system dark setting.
+# (Our LEGO CSS + Plotly template are all designed for a light background.)
+base = "light"
+primaryColor = "#D01012"            # LEGO red — accents, sliders, focus
+backgroundColor = "#FAF8F2"         # warm "instruction-paper" page background
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#1B1B1B"               # ink — body text
