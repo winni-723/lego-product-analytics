@@ -855,9 +855,13 @@ elif page == "Survival Predictor (ML)":
     row = pd.DataFrame([[inputs[c] for c in feature_cols]], columns=feature_cols)
     proba = float(model.predict_proba(row)[:, 1][0])
     verdict = "🟢 Likely ACTIVE" if proba >= 0.5 else "🔴 Likely RETIRED"
-    st.metric("Predicted survival probability", f"{proba:.0%}", help=verdict)
-    st.progress(proba)
-    st.markdown(f"### {verdict}")
+    # Constrain the result block to the same width as the Launch-year slider
+    # (the first of the three input columns above).
+    out1, _, _ = st.columns(3)
+    with out1:
+        st.metric("Predicted survival probability", f"{proba:.0%}", help=verdict)
+        st.progress(proba)
+        st.markdown(f"### {verdict}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
@@ -972,7 +976,10 @@ elif page == "Popularity Predictor (ML)":
         [{"year": in_year, "num_parts": in_parts, "minifigs": in_minifigs, "theme": in_theme}]
     )[feature_cols]
     pred = int(np.expm1(model.predict(row))[0])
-    st.metric("Predicted collectors who would own this set", f"{pred:,}")
+    # Match the Release-year slider width (first of the two input columns).
+    out1, _ = st.columns(2)
+    with out1:
+        st.metric("Predicted collectors who would own this set", f"{pred:,}")
 
 
 # ═══════════════════════════════════════════════════════════════════════════════
