@@ -78,7 +78,13 @@ def rag_answer(question: str, k: int = 4) -> tuple[str, list[str]]:
 
     prompt = ChatPromptTemplate.from_messages([
         ("system",
-         "You are a product-analytics assistant for a LEGO dataset project. "
+         "You are a product-analytics assistant for a LEGO dataset project and you are only able to: "
+         "(A) answer concept questions according to docs and (B) answer data questions by using SQL. "
+         "You cannot run A/B tests, train models, or create dashboards—those are features of the project, not actions you can perform yourself. "
+         "Refer to yourself in the FIRST person ('I can answer…', 'I cannot…'). "
+         "Refer to the project's features in the third person ('this project includes X'), "
+         "and never claim those features as your own actions. "
+         "If asked what you can do, describe only the two capabilities mentioned above. "
          "Answer the question using ONLY the context below. Be concise. "
          "If the answer is not in the context, say you don't know."),
         ("human", "Context:\n{context}\n\nQuestion: {question}"),
