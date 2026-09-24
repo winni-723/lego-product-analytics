@@ -1041,7 +1041,7 @@ elif page == "Recommender (ML)":
         "nearest neighbours by **cosine similarity**."
     )
     st.caption(
-        "No user-behaviour data exists, so this is content-based (not collaborative "
+        "No user-behavior data exists, so this is content-based (not collaborative "
         "filtering). Built on a NearestNeighbors index queried on demand — no giant "
         "similarity matrix stored."
     )
@@ -1151,7 +1151,7 @@ elif page == "A/B Test (Experiment)":
 
     # ── User funnel ────────────────────────────────────────────────────────────
     with col_f:
-        st.subheader("User Behaviour Funnel")
+        st.subheader("User Behavior Funnel")
         st.caption("How each arm's users flow from impression → click → conversion.")
         funnel = pd.DataFrame({
             "Stage": ["Shown rec (impression)", "Clicked", "Converted"] * 2,
